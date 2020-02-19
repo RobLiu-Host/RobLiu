@@ -26,6 +26,11 @@ public class RecursiveStack<E> {
         }
     }
 
+    /**
+     *
+     * @param stack
+     * @param <E>
+     */
     public static <E> void reverse(Stack<E> stack) {
         if (stack.isEmpty()) {
             return;
