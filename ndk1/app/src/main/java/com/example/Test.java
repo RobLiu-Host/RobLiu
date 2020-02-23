@@ -16,8 +16,8 @@ public class Test {
         integerQueue.push(2);
 
         SortStack.sort(integerQueue);
-        for (Integer integer:integerQueue) {
-            System.out.println("integer:"+integer);
+        while (!integerQueue.isEmpty()){
+            System.out.println("integer:"+integerQueue.pop());
         }
     }
 }
