@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
             HookHelp.AMN();
         } catch (NoSuchFieldException | IllegalAccessException e) {
             Log.d("tag","hook failure");
+        } catch (ClassNotFoundException e) {
+            Log.d("tag","hook failure ClassNotFoundException");
+        } catch (InstantiationException e) {
+            Log.d("tag","hook failure InstantiationException");
         }
     }
 }

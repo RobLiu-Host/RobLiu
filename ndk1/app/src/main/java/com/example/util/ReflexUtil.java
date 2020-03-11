@@ -10,13 +10,9 @@ import java.lang.reflect.Method;
  */
 public class ReflexUtil {
 
-    public static Class getClass(String className) {
-        Class aClass = null;
-        try {
-            aClass = Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public static Class getClass(String className) throws ClassNotFoundException {
+        Class aClass;
+        aClass = Class.forName(className);
         return aClass;
     }
 
@@ -31,15 +27,11 @@ public class ReflexUtil {
      * @param className
      * @return
      */
-    public static Object createObject(String className) {
-        Object obj = null;
-        try {
-            obj = getClass(className).newInstance();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
+    public static Object createObject(String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Object obj;
+
+        obj = getClass(className).newInstance();
+
         return obj;
     }
 
@@ -68,13 +60,11 @@ public class ReflexUtil {
      * @param aClass
      * @return
      */
-    public static Object createObject(Class aClass) {
-        Object obj = null;
-        try {
-            obj = aClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
+    public static Object createObject(Class aClass) throws InstantiationException, IllegalAccessException {
+        Object obj;
+
+        obj = aClass.newInstance();
+
         return obj;
     }
 
@@ -86,19 +76,17 @@ public class ReflexUtil {
      * @param vales
      * @param parameterTypes
      */
-    public static Object invokeMethod(String className, String methodName, Object[] vales, Class<?>... parameterTypes) {
-        Object object = null;
-        try {
-            Method method = getClass(className).getDeclaredMethod(methodName, parameterTypes);
-            Object instance = createObject(className);
-            method.setAccessible(true);
-            /**
-             * 执行对应的函数
-             */
-            object = method.invoke(instance, vales);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
+    public static Object invokeMethod(String className, String methodName, Object[] vales, Class<?>... parameterTypes) throws InstantiationException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Object object;
+
+        Method method = getClass(className).getDeclaredMethod(methodName, parameterTypes);
+        Object instance = createObject(className);
+        method.setAccessible(true);
+        /**
+         * 执行对应的函数a!
+         */
+        object = method.invoke(instance, vales);
+
         return object;
     }
 
@@ -110,20 +98,18 @@ public class ReflexUtil {
      * @param vales
      * @param parameterTypes
      */
-    public static Object invokeStaticMethod(String className, String methodName, Object[] vales, Class[] parameterTypes) {
+    public static Object invokeStaticMethod(String className, String methodName, Object[] vales, Class[] parameterTypes) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException {
         Object obj = null;
-        try {
-            Class aClass = getClass(className);
-            Method method = aClass.getDeclaredMethod(methodName, parameterTypes);
-            Object instance = createObject(aClass);
-            method.setAccessible(true);
-            /**
-             * 执行对应的函数
-             */
-            obj = method.invoke(instance, vales);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
+
+        Class aClass = getClass(className);
+        Method method = aClass.getDeclaredMethod(methodName, parameterTypes);
+        Object instance = createObject(aClass);
+        method.setAccessible(true);
+        /**
+         * 执行对应的函数
+         */
+        obj = method.invoke(instance, vales);
+
         return obj;
     }
 
@@ -134,14 +120,12 @@ public class ReflexUtil {
      * @param fieldName
      * @return
      */
-    public static Field getField(String className, String fieldName) {
-        Field field = null;
+    public static Field getField(String className, String fieldName) throws ClassNotFoundException, NoSuchFieldException {
+        Field field;
         Class aClass = getClass(className);
-        try {
-            field = aClass.getField(fieldName);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
+
+        field = aClass.getField(fieldName);
+
         return field;
     }
 
@@ -152,7 +136,7 @@ public class ReflexUtil {
      * @param fieldName
      * @return
      */
-    public static Object getFieldValue(String className, String fieldName) throws IllegalAccessException, NoSuchFieldException {
+    public static Object getFieldValue(String className, String fieldName) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException, InstantiationException {
         Field field;
 
         Class aClass = getClass(className);
@@ -171,7 +155,7 @@ public class ReflexUtil {
      * @param fieldName
      * @return
      */
-    public static Object getFieldValue(String className, Object object, String fieldName) throws NoSuchFieldException, IllegalAccessException {
+    public static Object getFieldValue(String className, Object object, String fieldName) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
         Class aClass = getClass(className);
         Field field = aClass.getField(fieldName);
         return field.get(object);
@@ -184,7 +168,7 @@ public class ReflexUtil {
      * @param fieldName
      * @param value
      */
-    public static void setField(String className, String fieldName, String value) throws IllegalAccessException, NoSuchFieldException {
+    public static void setField(String className, String fieldName, String value) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException, InstantiationException {
         Class aClass = getClass(className);
         Object object = createObject(className);
         Field field = aClass.getField(fieldName);
@@ -198,7 +182,7 @@ public class ReflexUtil {
      * @param fieldName
      * @param value
      */
-    public static void setField(String className, Object object, String fieldName, Object value) throws NoSuchFieldException, IllegalAccessException {
+    public static void setField(String className, Object object, String fieldName, Object value) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
         Class aClass = getClass(className);
 
         Field field = aClass.getField(fieldName);
